@@ -284,7 +284,9 @@ app.post('/sendEmail', (req, res) => {
     return res.status(200).json({ success: true, message: 'Email sent successfully' });
   });
 });
-
+app.get('/',(req,res)=>{
+  return res.status(200).json({success:true,message:'Welcome to the API'});
+})
 
 
 // Start server

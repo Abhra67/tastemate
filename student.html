@@ -170,7 +170,11 @@
             }
 
             // Fetch the user details from the server using the stored email
-            fetch(`http://localhost:3000/users/${userEmail}`)
+            fetch(`https://tastemate.onrender.com/users/${userEmail}`)
+
+
+
+
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Failed to fetch user details');
@@ -219,7 +223,7 @@
                 userId: student.id // Include userId from student
             };
 
-            fetch('http://localhost:3000/registerExam', {
+            fetch('https://tastemate.onrender.com/registerExam', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

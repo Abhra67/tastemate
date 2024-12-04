@@ -85,7 +85,7 @@
                 return;
             }
 
-            fetch(`http://localhost:3000/users/${userEmail}`)
+            fetch(`https://tastemate.onrender.com/users/${userEmail}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -105,7 +105,7 @@
         });
 
         function loadStudentData() {
-            fetch('http://localhost:3000/students')
+            fetch('https://tastemate.onrender.com/students')
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -141,7 +141,7 @@
         }
 
         function approveStudent(button, studentId) {
-            fetch(`http://localhost:3000/approve/${studentId}`, {
+            fetch(`https://tastemate.onrender.com/approve/${studentId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ approved: 1 })

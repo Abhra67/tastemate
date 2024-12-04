@@ -1,0 +1,90 @@
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: #f0f2f5;
+        }
+        
+        /* Admin details column */
+        .admin-column {
+            width: 16.67%; /* 1/6 of the page */
+            background-color: #2d3e50;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .admin-column h3 {
+            font-size: 1.5em;
+        }
+
+        .admin-column p {
+            font-size: 1.1em;
+        }
+
+        /* Main content area */
+        .main-content {
+            width: 83.33%; /* Remaining 5/6 of the page */
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .student-list {
+            background-color: #e7f0f8;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .student-item {
+            background-color: #fff;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .approve-btn {
+            background-color: #ff7a00;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .approve-btn:hover {
+            background-color: #ff5722;
+        }
+
+        .approved {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .sign-out {
+            margin-top: 20px;
+            background-color: #ff6347;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .sign-out:hover {
+            background-color: #ff4500;
+        }
+    

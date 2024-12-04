@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="admin.css">
+    <style>
+        .student-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .student-list th, .student-list td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .student-list th {
+            background-color: #f2f2f2;
+        }
+        #errorMessage {
+            display: none;
+            color: red;
+        }
+        .approve-btn {
+            padding: 5px 10px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .approve-btn.disabled {
+            background-color: green;
+            cursor: not-allowed;
+        }
+        .approve-btn.disabled:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Admin Column -->
+    <div class="admin-column">
+        <h3>Welcome Admin</h3>
+        <p id="adminName"></p>
+        <p id="adminEmail"></p>
+        <p id="userId"></p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="adminDashboard">
+        <div class="header">Applied Students List</div>
+        <p id="errorMessage">An error occurred. Please try again later.</p>
+
+        <!-- Student List Table -->
+        <div class="student-list">
+            <table id="studentTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Father Name</th>
+                        <th>Exam Choice</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic rows will be populated here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Sign Out Button -->
+        <button class="sign-out" onclick="window.location.href='login.html'">Sign Out</button>
+    </div>
+
+    <script>
+        const userEmail = localStorage.userEmail;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!userEmail) {
+                document.getElementById('errorMessage').style.display = 'block';
+                return;
+            }
+
+            fetch(`http://localhost:3000/users/${userEmail}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const admin = data.data;
+                        document.getElementById('adminName').textContent = `Name: ${admin.name}`;
+                        document.getElementById('adminEmail').textContent = `Email: ${admin.email}`;
+                        document.getElementById('userId').textContent = `User ID: ${admin.id}`;
+                    } else {
+                        document.getElementById('errorMessage').style.display = 'block';
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('errorMessage').style.display = 'block';
+                });
+
+            loadStudentData();
+        });
+
+        function loadStudentData() {
+            fetch('http://localhost:3000/students')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const tableBody = document.querySelector("#studentTable tbody");
+                        tableBody.innerHTML = '';
+
+                        data.students.forEach(student => {
+                            const row = document.createElement("tr");
+                            row.innerHTML = `
+                                <td>${student.name}</td>
+                                <td>${student.email}</td>
+                                <td>${student.father_name}</td>
+                                <td>${student.exam_choice}</td>
+                                <td>
+                                    <button 
+                                        class="approve-btn ${student.approved === 1 ? 'disabled' : ''}" 
+                                        onclick="approveStudent(this, ${student.id})"
+                                        ${student.approved === 1 ? 'disabled' : ''}
+                                    >
+                                        ${student.approved === 1 ? 'Approved' : 'Approve'}
+                                    </button>
+                                </td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    } else {
+                        alert('Failed to fetch students: ' + data.message);
+                    }
+                })
+                .catch(() => {
+                    alert("An error occurred while fetching student data.");
+                });
+        }
+
+        function approveStudent(button, studentId) {
+            fetch(`http://localhost:3000/approve/${studentId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ approved: 1 })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        button.textContent = 'Approved';
+                        button.classList.add('disabled');
+                        button.disabled = true; // Disable further clicks
+                    } else {
+                        alert('Failed to approve student: ' + data.message);
+                    }
+                })
+                .catch(() => {
+                    alert("An error occurred while approving the student.");
+                });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #6c63ff, #ff7a00); /* Background Gradient */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .signup-form {
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 5px solid #ff7a00; /* Orange border */
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 30px;
+            text-align: center;
+        }
+
+        label {
+            font-size: 16px;
+            color: #555;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #6c63ff;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #ff7a00;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #ff5722;
+        }
+
+        p {
+            margin-top: 15px;
+            text-align: center;
+            color: #555;
+        }
+
+        a {
+            color: #6c63ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .error-message, .success-message {
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        .success-message {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-form">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" name="role" required>
+                    <option value="student" >Student</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+
+            <button type="submit">Sign Up</button>
+
+            <p>Already have an account? <a href="login.html">Login</a></p>
+
+            <p id="errorMessage" class="error-message" style="display:none;"></p>
+            <p id="successMessage" class="success-message" style="display:none;"></p>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("signupForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const role = document.getElementById("role").value;
+
+            const formData = {
+                name: name,
+                email: email,
+                password: password,
+                role: role
+            };
+
+            fetch('http://localhost:3000/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    localStorage.setItem("userEmail", email);
+                    localStorage.setItem("userName", name);
+                    
+                    // Display success message
+                    document.getElementById("successMessage").innerText = "Signup successful! Redirecting to login...";
+                    document.getElementById("successMessage").style.display = 'block';
+
+                    setTimeout(() => {
+                        // Redirect after 3 seconds
+                        if (role === 'student') {
+                        window.location.href = "student.html"; // Redirect to student page
+                    } else {
+                        window.location.href = "admin.html"; // Redirect to default page
+                    } // Redirect to registration page (index.html)
+                    }, 3000);
+                } else {
+                    // Display error message
+                    document.getElementById("errorMessage").innerText = data.message;
+                    document.getElementById("errorMessage").style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("errorMessage").innerText = "An error occurred while processing your request.";
+                document.getElementById("errorMessage").style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

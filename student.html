@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            background-color: #f0f2f5;
+        }
+
+        /* Student details column */
+        .student-column {
+            width: 20%;
+            background-color: #2d3e50;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .student-column h3 {
+            font-size: 1.5em;
+        }
+
+        .student-column p {
+            font-size: 1.1em;
+        }
+
+        /* Main content area */
+        .main-content {
+            width: 80%;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .registration-form {
+            background-color: #e7f0f8;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .success-message {
+            color: green;
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        .sign-out {
+            margin-top: 20px;
+            background-color: #ff6347;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .sign-out:hover {
+            background-color: #ff4500;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 1em;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Student Column -->
+    <div class="student-column">
+        <h3>Student Details</h3>
+        <!-- Dynamically populate with student details -->
+        <p id="studentName"></p>
+        <p id="studentEmail"></p>
+        <p id="userId"></p>
+        <p id="errorMessage" class="error-message" style="display: none;">Error fetching student details. Please try
+            again later.</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">Register for an Exam</div>
+
+        <!-- Registration Form -->
+        <div class="registration-form">
+            <label for="fatherName">Father's Name</label>
+            <input type="text" id="fatherName" name="fatherName" required>
+
+            <label for="birthDate">Date of Birth</label>
+            <input type="date" id="birthDate" name="birthDate" required>
+
+            <label for="motherName">Mother's Name</label>
+            <input type="text" id="motherName" name="motherName" required>
+
+            <label for="universityName">University Name</label>
+            <input type="text" id="universityName" name="universityName" required>
+
+            <label for="examChoice">Choose Exam</label>
+            <select id="examChoice" name="examChoice" required>
+                <option value="GATE">GATE</option>
+                <option value="NORSET">NORSET</option>
+                <option value="UPSC">UPSC</option>
+                <option value="JEE">JEE</option>
+                <option value="NEET">NEET</option>
+            </select>
+
+            <button type="button" onclick="registerForExam()">Submit</button>
+        </div>
+
+        <div class="success-message" id="successMessage" style="display: none;">
+            🎉 You have successfully registered for the exam!
+        </div>
+
+        <!-- Sign Out Button -->
+        <button class="sign-out" onclick="window.location.href='login.html'">Sign Out</button>
+    </div>
+
+    <script>
+        let student = null; // Declare student object at the top level
+        const userEmail = localStorage.userEmail;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if userEmail exists in localStorage
+            if (!userEmail) {
+                console.error('User email not found in localStorage.');
+                document.getElementById('errorMessage').style.display = 'block';
+                return;
+            }
+
+            // Fetch the user details from the server using the stored email
+            fetch(`http://localhost:3000/users/${userEmail}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch user details');
+                    }
+                    return response.json(); // Parse the JSON response
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Store user details in the student object
+                        student = data.data;
+
+                        // Populate student details on the page
+                        document.getElementById('studentName').textContent = `Name: ${student.name}`;
+                        document.getElementById('studentEmail').textContent = `Email: ${student.email}`;
+                        document.getElementById('userId').textContent = `User ID: ${student.id}`;
+                    } else {
+                        document.getElementById('errorMessage').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    document.getElementById('errorMessage').style.display = 'block';
+                });
+        });
+
+        function registerForExam() {
+            // Ensure that the student details are available
+            if (!student) {
+                alert('Student details are not loaded yet.');
+                return;
+            }
+
+            const fatherName = document.getElementById("fatherName").value;
+            const birthDate = document.getElementById("birthDate").value;
+            const motherName = document.getElementById("motherName").value;
+            const universityName = document.getElementById("universityName").value;
+            const examChoice = document.getElementById("examChoice").value;
+
+            // Prepare the data to send to the backend
+            const formData = {
+                fatherName,
+                birthDate,
+                motherName,
+                universityName,
+                examChoice,
+                userId: student.id // Include userId from student
+            };
+
+            fetch('http://localhost:3000/registerExam', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Hide form and show success message
+                        document.querySelector('.registration-form').style.display = 'none';
+                        document.getElementById('successMessage').style.display = 'block';
+
+                        // Display success message with student ID
+                        document.getElementById('successMessage').innerText =
+                            `Successfully registered for the exam. Your Student ID is: ${data.studentId}`;
+                    } else {
+                        alert('Failed to register: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while registering.");
+                });
+        }
+    </script>
+
+</body>
+
+</html>

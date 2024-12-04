@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskMate - Online Exam Registration</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f9fc;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(to right, #6c63ff, #ff7a00);
+            color: #fff;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        header .logo img {
+            width: 40px;
+            margin-right: 15px;
+        }
+
+        header .logo h1 {
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        /* Main Section */
+        .main {
+            display: flex;
+            justify-content: space-between;
+            padding: 60px 40px;
+            background-color: #ffffff;
+        }
+
+        .main .intro-text {
+            max-width: 50%;
+            font-size: 2.5rem;
+            color: #333;
+            background: linear-gradient(to right, #6c63ff, #ff7a00);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+        }
+
+        .main .image-section img {
+            width: 60%;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Registration and Login Buttons */
+        .auth-buttons {
+            display: flex;
+        }
+
+        .auth-buttons a {
+            margin-left: 15px;
+            padding: 10px 20px;
+            background-color: #11b9cf;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .auth-buttons a:hover {
+            background-color: #02aef7;
+        }
+
+        /* Features Section */
+        .features {
+            margin-top: 45px;
+            padding: 25px;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .features h3 {
+            background: #18a5af;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            padding: 10px;
+            color: white;
+        }
+
+        .features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .features ul li {
+            margin: 10px 0;
+            font-size: 1.1rem;
+            padding: 5px;
+            color: #6c63ff;
+            border-bottom: 1px dashed #6c63ff;
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #6c63ff;
+            color: #fff;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        footer div {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        footer h3 {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            margin: 5px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Registration Steps Styling */
+        .features ul li {
+            display: inline-block;
+            margin-right: 20px;
+            background-color: #11b9cf;
+            padding: 10px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .main .intro-text {
+                max-width: 100%;
+                margin-bottom: 20px;
+                font-size: 1.8rem;
+            }
+
+            .main .image-section img {
+                width: 80%;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="TaskMate Logo">
+            <h1>TaskMate</h1>
+        </div>
+        <div class="auth-buttons">
+            <a href="signup.html" class="register-btn">Register</a>
+            <a href="login.html" class="login-btn">Login</a>
+        </div>
+    </header>
+
+    <!-- Main Section -->
+    <section class="main">
+        <div class="intro-text">
+            <h2>Welcome to TaskMate</h2>
+            <p>Register for your upcoming exams with ease. Quick and secure registration process.</p>
+        </div>
+        <div class="image-section">
+            <img src="logo.png" alt="Exam Illustration">
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h3>Registration Steps</h3>
+        <ul>
+            <li>1. Create Account (If new user).</li>
+            <li>2. Choose Your Exam.</li>
+            <li>3. Fill in Your Details.</li>
+            <li>4. Submit and Confirm.</li>
+            <li>5. Wait for Admin Approval.</li>
+            <li>6. After approval, you will be notified via email.</li>
+        </ul>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div>
+            <!-- Person 1 -->
+            <div>
+                <h3>Abhrakanti</h3>
+                <a href="https://facebook.com/abhrakanti" target="_blank">Facebook</a><br>
+                <a href="https://github.com/abhrakanti" target="_blank">GitHub</a><br>
+                <a href="https://linkedin.com/in/abhrakanti" target="_blank">LinkedIn</a>
+            </div>
+            <!-- Person 2 -->
+            <div>
+                <h3>Sudipta</h3>
+                <a href="https://facebook.com/sudipta" target="_blank">Facebook</a><br>
+                <a href="https://github.com/sudipta" target="_blank">GitHub</a><br>
+                <a href="https://linkedin.com/in/sudipta" target="_blank">LinkedIn</a>
+            </div>
+            <!-- Person 3 -->
+            <div>
+                <h3>Arindam</h3>
+                <a href="https://facebook.com/arindam" target="_blank">Facebook</a><br>
+                <a href="https://github.com/arindam" target="_blank">GitHub</a><br>
+                <a href="https://linkedin.com/in/arindam" target="_blank">LinkedIn</a>
+            </div>
+            <!-- Person 4 -->
+            <div>
+                <h3>Debnath</h3>
+                <a href="https://facebook.com/debnath" target="_blank">Facebook</a><br>
+                <a href="https://github.com/debnath" target="_blank">GitHub</a><br>
+                <a href="https://linkedin.com/in/debnath" target="_blank">LinkedIn</a>
+            </div>
+            <!-- Person 5 -->
+            <div>
+                <h3>Koushik</h3>
+                <a href="https://facebook.com/koushik" target="_blank">Facebook</a><br>
+                <a href="https://github.com/koushik" target="_blank">GitHub</a><br>
+                <a href="https://linkedin.com/in/koushik" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
